@@ -28,6 +28,9 @@ s=[]
 
 for i in range(n):
     s+=[list(map(int,input().split()))]
-print(s)
+
+# result=[]
+# for i in range(n):
+
 
 

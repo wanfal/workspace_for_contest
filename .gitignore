@@ -1,0 +1,23 @@
+# Скомпилированные файлы C/C++
+*.o
+*.obj
+*.out
+*.exe
+*.a
+*.so
+a.out
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Локальные настройки редактора
+.vscode/
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+*.swp
+*.log
