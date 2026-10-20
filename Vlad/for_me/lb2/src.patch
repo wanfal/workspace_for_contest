@@ -1,0 +1,185 @@
+diff -ruN /tmp/tmp.wOgHgfljNa/index_first_negative.c ./src/index_first_negative.c
+--- /tmp/tmp.wOgHgfljNa/index_first_negative.c	1970-01-01 03:00:00.000000000 +0300
++++ ./src/index_first_negative.c	2026-10-18 22:19:45.518912859 +0300
+@@ -0,0 +1,10 @@
++#include "index_first_negative.h"
++
++int index_first_negative(int array[], int size){
++    for (int i=0;i<size;i++){
++        if (array[i]<0){
++            return i;
++        }
++    }
++    return -1;
++}
+\ В конце файла нет новой строки
+diff -ruN /tmp/tmp.wOgHgfljNa/index_first_negative.h ./src/index_first_negative.h
+--- /tmp/tmp.wOgHgfljNa/index_first_negative.h	1970-01-01 03:00:00.000000000 +0300
++++ ./src/index_first_negative.h	2026-10-18 23:01:38.490138386 +0300
+@@ -0,0 +1,6 @@
++#ifndef I_F_N
++#define I_F_N
++
++int index_first_negative(int array[], int size);
++
++#endif
+\ В конце файла нет новой строки
+diff -ruN /tmp/tmp.wOgHgfljNa/index_last_negative.c ./src/index_last_negative.c
+--- /tmp/tmp.wOgHgfljNa/index_last_negative.c	1970-01-01 03:00:00.000000000 +0300
++++ ./src/index_last_negative.c	2026-10-19 00:20:23.174773470 +0300
+@@ -0,0 +1,11 @@
++#include "index_last_negative.h"
++
++int index_last_negative(int array[], int size){
++    int b = -1;
++    for (int i = 0; i < size; i++) {
++        if (array[i] < 0) {
++            b = i;
++        }
++    }
++    return b;
++}
+\ В конце файла нет новой строки
+diff -ruN /tmp/tmp.wOgHgfljNa/index_last_negative.h ./src/index_last_negative.h
+--- /tmp/tmp.wOgHgfljNa/index_last_negative.h	1970-01-01 03:00:00.000000000 +0300
++++ ./src/index_last_negative.h	2026-10-18 23:02:28.407762558 +0300
+@@ -0,0 +1,6 @@
++#ifndef I_L_N
++#define I_L_N
++
++int index_last_negative(int array[], int size);
++
++#endif
+\ В конце файла нет новой строки
+diff -ruN /tmp/tmp.wOgHgfljNa/Makefile ./src/Makefile
+--- /tmp/tmp.wOgHgfljNa/Makefile	1970-01-01 03:00:00.000000000 +0300
++++ ./src/Makefile	2026-10-19 00:35:48.918873570 +0300
+@@ -0,0 +1,2 @@
++all:
++	gcc menu.c index_first_negative.c index_last_negative.c multi_between_negative.c multi_before_and_after_negative.c -o menu
+\ В конце файла нет новой строки
+Двоичные файлы /tmp/tmp.wOgHgfljNa/menu и ./src/menu различаются
+diff -ruN /tmp/tmp.wOgHgfljNa/menu.c ./src/menu.c
+--- /tmp/tmp.wOgHgfljNa/menu.c	1970-01-01 03:00:00.000000000 +0300
++++ ./src/menu.c	2026-10-19 01:09:23.075018175 +0300
+@@ -0,0 +1,55 @@
++#include <stdio.h>
++#include "index_first_negative.h"
++#include "index_last_negative.h"
++#include "multi_before_and_after_negative.h"
++#include "multi_between_negative.h"
++
++int main(){
++
++    int k;
++
++    if (scanf("%d", &k) != 1) {
++        printf("Данные некорректны\n");
++        return 0;
++    }
++
++    int array[20];
++    int size = 0;
++    int value;
++    int too_many = 0;
++
++    while (scanf("%d", &value) == 1) {
++        if (size < 20) {
++            array[size++] = value;
++        } else {
++            too_many = 1;
++        }
++    }
++
++    if (k < 0 || k > 3 || size == 0 || too_many ||
++    index_first_negative(array, size) == -1 ||
++    (k == 2 &&
++     index_first_negative(array, size) ==
++     index_last_negative(array, size))) {
++    printf("Данные некорректны\n");
++
++    }else{
++        switch (k){
++        case 0:
++            printf("%d\n",index_first_negative(array,size));
++            break;
++        case 1:
++            printf("%d\n",index_last_negative(array,size));
++            break;
++        case 2:
++            printf("%lld\n",multi_between_negative(array,size));
++            break;
++        case 3:
++            printf("%lld\n",multi_before_and_after_negative(array,size));
++            break;
++        }
++        
++    }
++
++    return 0;
++}
+\ В конце файла нет новой строки
+diff -ruN /tmp/tmp.wOgHgfljNa/multi_before_and_after_negative.c ./src/multi_before_and_after_negative.c
+--- /tmp/tmp.wOgHgfljNa/multi_before_and_after_negative.c	1970-01-01 03:00:00.000000000 +0300
++++ ./src/multi_before_and_after_negative.c	2026-10-18 23:20:10.086509269 +0300
+@@ -0,0 +1,16 @@
++#include "multi_before_and_after_negative.h"
++#include "index_first_negative.h"
++#include "index_last_negative.h"
++
++long long multi_before_and_after_negative(int array[], int size){
++    long long product  = 1;
++    int first,last;
++    first=index_first_negative(array,size);
++    last=index_last_negative(array,size);
++    for (int i=0;i<size;i++){
++        if (i<first || i>=last){
++            product*=array[i];
++        }
++    }
++    return product;
++}
+\ В конце файла нет новой строки
+diff -ruN /tmp/tmp.wOgHgfljNa/multi_before_and_after_negative.h ./src/multi_before_and_after_negative.h
+--- /tmp/tmp.wOgHgfljNa/multi_before_and_after_negative.h	1970-01-01 03:00:00.000000000 +0300
++++ ./src/multi_before_and_after_negative.h	2026-10-18 23:21:33.707847541 +0300
+@@ -0,0 +1,6 @@
++#ifndef M_B_A_N
++#define M_B_A_N
++
++long long multi_before_and_after_negative(int array[], int size);
++
++#endif
+\ В конце файла нет новой строки
+diff -ruN /tmp/tmp.wOgHgfljNa/multi_between_negative.c ./src/multi_between_negative.c
+--- /tmp/tmp.wOgHgfljNa/multi_between_negative.c	1970-01-01 03:00:00.000000000 +0300
++++ ./src/multi_between_negative.c	2026-10-18 23:21:39.771799554 +0300
+@@ -0,0 +1,16 @@
++#include "multi_between_negative.h"
++#include "index_first_negative.h"
++#include "index_last_negative.h"
++
++long long multi_between_negative(int array[], int size){
++    long long product  = 1;
++    int first,last;
++    first=index_first_negative(array,size);
++    last=index_last_negative(array,size);
++    for (int i=0;i<size;i++){
++        if (i>=first && i<last){
++            product*=array[i];
++        }
++    }
++    return product;
++}
+\ В конце файла нет новой строки
+diff -ruN /tmp/tmp.wOgHgfljNa/multi_between_negative.h ./src/multi_between_negative.h
+--- /tmp/tmp.wOgHgfljNa/multi_between_negative.h	1970-01-01 03:00:00.000000000 +0300
++++ ./src/multi_between_negative.h	2026-10-18 23:21:32.374858089 +0300
+@@ -0,0 +1,6 @@
++#ifndef M_B_N
++#define M_B_N
++
++long long multi_between_negative(int array[], int size);
++
++#endif
+\ В конце файла нет новой строки
